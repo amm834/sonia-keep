@@ -1,19 +1,21 @@
 import consola from "consola";
-import { config } from "dotenv";
+import {config} from "dotenv";
 import mongoose from "mongoose";
-import server from "./server";
+import app from "./app";
 
 config();
 
 try {
-  const port = process.env.PORT || 8000;
+    const port = process.env.PORT || 8000;
 
-  await mongoose.connect(process.env.MONGODB_URL);
-  mongoose.set("strictQuery", true);
+    mongoose.set("strictQuery", true);
+    await mongoose.connect(process.env.MONGODB_URL);
 
-  server.listen(port, () => {
-    consola.info(`[Server] Server is running at http://localhost:${port}`);
-  });
+    consola.info("[Server] Connected to MongoDB");
+
+    app.listen(port, () => {
+        consola.info(`[Server] Server is running at http://localhost:${port}`);
+    });
 } catch (err) {
-  consola.error(err.message);
+    consola.error(err.message);
 }
