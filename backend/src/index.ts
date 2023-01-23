@@ -1,3 +1,4 @@
+import consola from "consola";
 import { config } from "dotenv";
 import mongoose from "mongoose";
 import server from "./server";
@@ -11,8 +12,8 @@ try {
   mongoose.set("strictQuery", true);
 
   server.listen(port, () => {
-    console.log(`[Server] Server is running at localhost:${port}`);
+    consola.info(`[Server] Server is running at http://localhost:${port}`);
   });
 } catch (err) {
-  console.log(err.message);
+  consola.error(err.message);
 }

@@ -14,8 +14,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "consola": "^2.15.3",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "kolorist": "^1.6.0",
     "mongoose": "^6.8.4"
   },
   "devDependencies": {
