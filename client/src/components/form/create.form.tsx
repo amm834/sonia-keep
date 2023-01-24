@@ -4,10 +4,6 @@ import {styled} from "@mui/material";
 import Fab from "@mui/material/Fab";
 import Dialog from '@mui/material/Dialog';
 import Button from "@mui/material/Button";
-import ListItemText from '@mui/material/ListItemText';
-import ListItem from '@mui/material/ListItem';
-import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
@@ -15,6 +11,9 @@ import Typography from '@mui/material/Typography';
 import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
 import {TransitionProps} from '@mui/material/transitions';
+import DialogContentText from "@mui/material/DialogContentText";
+import TextField from "@mui/material/TextField";
+import DialogContent from "@mui/material/DialogContent";
 
 
 const StyledFab = styled(Fab)({
@@ -66,25 +65,33 @@ const CreateForm = () => {
                             <CloseIcon/>
                         </IconButton>
                         <Typography sx={{ml: 2, flex: 1}} variant="h6" component="div">
-                            Sound
+                            Create Note
                         </Typography>
                         <Button autoFocus color="inherit" onClick={handleClose}>
-                            save
+                            Save
                         </Button>
                     </Toolbar>
                 </AppBar>
-                <List>
-                    <ListItem button>
-                        <ListItemText primary="Phone ringtone" secondary="Titania"/>
-                    </ListItem>
-                    <Divider/>
-                    <ListItem button>
-                        <ListItemText
-                            primary="Default notification ringtone"
-                            secondary="Tethys"
-                        />
-                    </ListItem>
-                </List>
+                <DialogContent>
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        id="title"
+                        label="Title"
+                        type="text"
+                        fullWidth
+                        variant="standard"
+                        style={{marginBottom: 20}}
+                    />
+                    <TextField
+                        id="standard-multiline-static"
+                        label="Body"
+                        multiline
+                        rows={10}
+                        variant="standard"
+                        fullWidth
+                    />
+                </DialogContent>
             </Dialog>
         </div>
     );
