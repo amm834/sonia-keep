@@ -18,11 +18,13 @@ app.use((req, res, next) => {
     next(createHttpError.NotFound("This endpoint does not exist"));
 });
 
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-    const status = isHttpError(err) ? err.status : 500;
+app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
+    const status = isHttpError(error) ? error.status : 500;
 
     res.status(status).json({
-        msg: err.message,
+        status,
+        msg: error.message,
+        error
     });
 })
 

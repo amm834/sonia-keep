@@ -1,15 +1,14 @@
 import {Router} from "express";
 import {createNote, deleteNote, getAllNotes, getNoteById, updateNote} from "../controllers/note.controller";
+import {validate} from "../middlewares/validate.middleware";
+import {notePartialSchema, noteRequestSchema} from "../schemas";
 
-const router = Router();
+export const noteRouter = Router();
 
-router
-    .post('/', createNote)
+noteRouter
+    .post('/', validate(noteRequestSchema), createNote)
     .get("/", getAllNotes)
     .get('/:id', getNoteById)
-    .put("/:id", updateNote)
+    .put("/:id", validate(notePartialSchema), updateNote)
     .delete('/:id', deleteNote);
 
-export {
-    router as noteRouter
-}
