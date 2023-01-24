@@ -18,10 +18,11 @@ import DialogContent from "@mui/material/DialogContent";
 
 const StyledFab = styled(Fab)({
     position: 'absolute',
-    zIndex: 1,
-    right: 20,
-    bottom: 30,
+    zIndex: 2,
+    right: 16,
+    bottom: 16,
 });
+
 
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
