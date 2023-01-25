@@ -28,4 +28,4 @@ userModelSchema.pre("save", async function (next) {
 
 export const User = model<UserSchema>("User", userModelSchema);
 
-export const findByEmail = async (email: string) => await User.findOne({email})
+export const findUserByEmail = async (email: string) => await User.findOne({email})

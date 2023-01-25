@@ -1,5 +1,5 @@
 import {NextFunction, Request, Response} from "express";
-import {findByEmail, User} from "../models/user.model";
+import {findUserByEmail, User} from "../models/user.model";
 import createHttpError from "http-errors";
 import {comparePassword} from "../utils/bcrypt.util";
 import jwt from 'jsonwebtoken'
@@ -23,7 +23,6 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
             return next(createHttpError(401, "Invalid credentials"));
         }
 
-        console.log(await findByEmail(email))
 
         const isMatch = await comparePassword(password, user.password)
 
@@ -31,7 +30,10 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
             return next(createHttpError(401, "Invalid credentials"));
         }
 
-        const access_token = jwt.sign({id: user._id}, process.env.JWT_SECRET, {expiresIn: "1d"});
+        const access_token = jwt.sign({
+            name: user.name,
+            email: user.email,
+        }, process.env.JWT_SECRET, {expiresIn: "1d"});
 
         return res.status(200).json({
             msg: "Login Success",
@@ -43,11 +45,5 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
 }
 
 export const me = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        // @ts-ignore
-        const user = await User.findById(req.user._id);
-        res.status(200).json({user});
-    } catch (error) {
-        next(error);
-    }
+    res.json({msg: 'success'})
 }

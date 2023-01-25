@@ -1,9 +1,7 @@
+import "dotenv/config";
 import consola from "consola";
-import {config} from "dotenv";
 import mongoose from "mongoose";
 import app from "./app";
-
-config();
 
 try {
     const port = process.env.PORT || 8000;
