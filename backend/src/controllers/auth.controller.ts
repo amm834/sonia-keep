@@ -45,5 +45,12 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
 }
 
 export const me = async (req: Request, res: Response, next: NextFunction) => {
-    res.json({msg: 'success'})
+    const {email} = req.body;
+
+    try {
+        const user = await findUserByEmail(email);
+        res.status(200).json(user);
+    } catch (error) {
+        next(error);
+    }
 }

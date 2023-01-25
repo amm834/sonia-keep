@@ -8,7 +8,9 @@ export const noteSchema = z.object({
     body: z.string({
         required_error: "Body is required"
     }),
-    user: z.instanceof(Schema.Types.ObjectId)
+    user_id: z.string({
+        required_error: "User id is required"
+    }),
 })
 
 export const notePartialSchema = noteSchema.partial()

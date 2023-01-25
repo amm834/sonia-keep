@@ -7,6 +7,7 @@ const userModelSchema = new Schema<UserSchema>({
     name: {type: String, required: true},
     email: {type: String, required: true, unique: true, email: true},
     password: {type: String, required: true, minlength: 6, select: false},
+    notes: [{type: Schema.Types.ObjectId, ref: "Note"}],
 });
 
 
