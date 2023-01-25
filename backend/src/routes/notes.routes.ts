@@ -5,13 +5,13 @@ import {notePartialSchema, noteRequestSchema} from "../schemas";
 import passport from "passport";
 
 
-export const noteRouter: Router = Router();
 
+export const noteRouter: Router = Router();
 const requiredAuth = passport.authenticate('jwt', {session: false});
 
 noteRouter
     .post('/', requiredAuth, validate(noteRequestSchema), createNote)
-    .get("/:userId", requiredAuth, getAllNotes)
-    .get('/:id/note', requiredAuth, getNoteById)
-    .put("/:id/note", requiredAuth, validate(notePartialSchema), updateNote)
-    .delete('/:id/note', requiredAuth, deleteNote);
+    .get("/", requiredAuth, getAllNotes)
+    .get('/:id', requiredAuth, getNoteById)
+    .put("/:id", requiredAuth, validate(notePartialSchema), updateNote)
+    .delete('/:id', requiredAuth, deleteNote);
