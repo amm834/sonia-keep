@@ -3,7 +3,7 @@ import {createNote, deleteNote, getAllNotes, getNoteById, updateNote} from "../c
 import {validate} from "../middlewares/validate.middleware";
 import {notePartialSchema, noteRequestSchema} from "../schemas";
 
-export const noteRouter = Router();
+export const noteRouter: Router = Router();
 
 noteRouter
     .post('/', validate(noteRequestSchema), createNote)

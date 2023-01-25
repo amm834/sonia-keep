@@ -9,11 +9,11 @@ export const validate = (schema: AnyZodObject) => async (req: Request, res: Resp
             query: req.query,
             params: req.params
         });
-        return next()
+        next()
     } catch (error) {
         if (error instanceof ZodError) {
             const message = error.issues.map(issue => issue.message)[0];
-            return next(createHttpError(400, message));
+            next(createHttpError(createHttpError.UnprocessableEntity(message)));
         }
     }
 }

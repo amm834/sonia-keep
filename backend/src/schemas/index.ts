@@ -1,1 +1,2 @@
-export * from './noteSchema'
+export * from './note.schema'
+export * from './user.schema'
