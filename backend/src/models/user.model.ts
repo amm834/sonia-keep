@@ -2,13 +2,13 @@ import {UserSchema} from "../schemas";
 import {model, Schema} from "mongoose";
 import {hashPassword} from "../utils/bcrypt.util";
 
+
 const userModelSchema = new Schema<UserSchema>({
     name: {type: String, required: true},
     email: {type: String, required: true, unique: true, email: true},
-    password: {type: String, required: true, minlength: 6},
+    password: {type: String, required: true, minlength: 6, select: false},
 });
 
-export const User = model<UserSchema>("User", userModelSchema);
 
 userModelSchema.pre("save", async function (next) {
     const user = this
@@ -24,3 +24,8 @@ userModelSchema.pre("save", async function (next) {
         return next()
     }
 });
+
+
+export const User = model<UserSchema>("User", userModelSchema);
+
+export const findByEmail = async (email: string) => await User.findOne({email})

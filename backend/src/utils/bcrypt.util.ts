@@ -1,4 +1,5 @@
 import bcrypt from 'bcrypt';
+import {Promise} from "mongoose";
 
 export const hashPassword = async (password: string): Promise<string> => {
     const salt = await bcrypt.genSalt(10);
@@ -6,6 +7,6 @@ export const hashPassword = async (password: string): Promise<string> => {
 }
 
 export const comparePassword = async (password: string, hash: string): Promise<boolean> => {
-    const match = bcrypt.compare(password, hash);
-    return !!match;
-}
+    return !!await bcrypt.compare(password, hash);
+};
+
