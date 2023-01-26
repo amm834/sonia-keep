@@ -18,31 +18,37 @@ import {AxiosError} from 'axios';
 import {useDispatch, useSelector} from "react-redux";
 import {changeIsLoggedIn, UserState} from "../../features/user.slice";
 import {RootState} from "../../store";
+import {useState} from "react";
 
 type TabTypes = "login" | "register";
 
 export default function Navbar() {
-    const [open, setOpen] = React.useState(false);
-    const [type, setType] = React.useState<TabTypes>("login");
-    const [alertOpen, setAlertOpen] = React.useState(false);
 
-    const [name, setName] = React.useState("");
-    const [email, setEmail] = React.useState("");
-    const [password, setPassword] = React.useState("");
-    const [errorMessage, setErrorMessage] = React.useState("")
+    const [openDialog, setOpenDialog] = useState(false);
+    const [dialogTabType, setDialogTabType] = useState<TabTypes>("login");
+
+    const [alertOpen, setAlertOpen] = useState(false);
+
+    const [errorMessage, setErrorMessage] = useState("")
+
+    //  user state
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
 
     const dispatch = useDispatch();
     const isLoggedIn = useSelector((state: RootState) => state.user.isLoggedIn);
 
 
     const handleClickOpen = (type: TabTypes) => {
-        setType(type);
-        setOpen(true);
+        setDialogTabType(type);
+        setOpenDialog(true);
     };
 
 
     const handleClose = () => {
-        setOpen(false);
+        setOpenDialog(false);
     };
 
 
@@ -53,7 +59,7 @@ export default function Navbar() {
                 email,
                 password,
             });
-            setOpen(false);
+            setOpenDialog(false);
             dispatch(changeIsLoggedIn(true));
         } catch (error) {
             if (error instanceof AxiosError) {
@@ -85,8 +91,8 @@ export default function Navbar() {
                         </>
                     )}
 
-                    <Dialog open={open} onClose={handleClose}>
-                        <DialogTitle>{type === "login" ? "Login" : "Register"}</DialogTitle>
+                    <Dialog open={openDialog} onClose={handleClose}>
+                        <DialogTitle>{dialogTabType === "login" ? "Login" : "Register"}</DialogTitle>
                         <DialogContent>
                             {/*alert box */}
                             {alertOpen && <Box sx={{width: '100%'}}>
@@ -112,7 +118,7 @@ export default function Navbar() {
                                 </Collapse>
                             </Box>}
 
-                            {type === "register" && <TextField
+                            {dialogTabType === "register" && <TextField
                                 style={{marginBottom: 10}}
                                 autoFocus
                                 margin="dense"
@@ -143,10 +149,10 @@ export default function Navbar() {
                         </DialogContent>
                         <DialogActions>
                             <Button onClick={handleClose} variant="outlined" color="error">Close</Button>
-                            {type === "register" && <Button variant="contained"
-                                                            onClick={onRegister}>Register</Button>}
-                            {type === "login" && <Button onClick={handleClose} variant="contained"
-                                                         onClickCapture={onLogin}>Login</Button>}
+                            {dialogTabType === "register" && <Button variant="contained"
+                                                                     onClick={onRegister}>Register</Button>}
+                            {dialogTabType === "login" && <Button onClick={handleClose} variant="contained"
+                                                                  onClickCapture={onLogin}>Login</Button>}
                         </DialogActions>
                     </Dialog>
 
