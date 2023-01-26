@@ -6,10 +6,12 @@ import createHttpError, {isHttpError} from "http-errors";
 import {authRouter} from "./routes/auth.routes";
 import passport from "passport";
 import {jwtStrategy} from "./middlewares/jwt.middleware";
+import cors from "cors";
 
 
 const app: Express = express();
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(morgan("dev"));

@@ -8,7 +8,7 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
     const {name, email, password} = req.body;
     try {
         const user = await User.create({name, email, password});
-        res.status(201).json(user);
+        await res.status(201).json(user);
     } catch (error) {
         next(error);
     }
@@ -35,7 +35,7 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
             email: user.email,
         }, process.env.JWT_SECRET, {expiresIn: "1d"});
 
-        return res.status(200).json({
+        return await res.status(200).json({
             msg: "Login Success",
             access_token
         });
@@ -49,7 +49,7 @@ export const me = async (req: Request, res: Response, next: NextFunction) => {
 
     try {
         const user = await findUserByEmail(email);
-        res.status(200).json(user);
+        await res.status(200).json(user);
     } catch (error) {
         next(error);
     }

@@ -12,7 +12,6 @@ export const userSchema = z.object({
     }).min(6, {
         message: "Password must be at least 6 characters",
     }),
-    notes: z.array(z.string()),
 })
 
 export const userRequestSchema = z.object({
