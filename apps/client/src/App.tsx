@@ -8,13 +8,17 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container'
+import {useSelector} from "react-redux";
+import {RootState} from "./store";
 
 
 function App() {
+    const isLoggedIn = useSelector((state: RootState) => state.user.isLoggedIn);
+
     return (
         <>
             <Navbar/>
-            <CreateForm/>
+            {isLoggedIn && <CreateForm/>}
 
             <Container style={{marginTop: 20}}>
                 <Grid container spacing={3}>

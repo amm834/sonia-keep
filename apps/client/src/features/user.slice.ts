@@ -2,7 +2,7 @@ import {createSlice} from '@reduxjs/toolkit'
 import type {PayloadAction} from '@reduxjs/toolkit'
 
 export interface UserState {
-    isLoggedIn: boolean
+    isLoggedIn: boolean;
 }
 
 const initialState: UserState = {

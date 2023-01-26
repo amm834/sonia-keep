@@ -46,7 +46,6 @@ export default function Navbar() {
         setOpenDialog(true);
     };
 
-
     const handleClose = () => {
         setOpenDialog(false);
     };
@@ -69,9 +68,20 @@ export default function Navbar() {
         }
     }
 
-
-    const onLogin = () => {
-        console.log('login')
+    const onLogin = async () => {
+        try {
+            await axiosInstance.post('/api/auth/login', {
+                email,
+                password,
+            });
+            setOpenDialog(false);
+            dispatch(changeIsLoggedIn(true));
+        } catch (error) {
+            if (error instanceof AxiosError) {
+                setErrorMessage(error.response?.data.msg);
+                setAlertOpen(true);
+            }
+        }
     }
 
 
@@ -90,6 +100,7 @@ export default function Navbar() {
                                     style={{marginLeft: 10}}>Register</Button>
                         </>
                     )}
+
 
                     <Dialog open={openDialog} onClose={handleClose}>
                         <DialogTitle>{dialogTabType === "login" ? "Login" : "Register"}</DialogTitle>
@@ -159,6 +170,5 @@ export default function Navbar() {
                 </Toolbar>
             </AppBar>
         </Box>
-    )
-        ;
+    );
 }
