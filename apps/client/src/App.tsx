@@ -10,10 +10,17 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container'
 import {useSelector} from "react-redux";
 import {RootState} from "./store";
+import {useQuery} from "@tanstack/react-query";
+import {getAllNotes} from "./api/note.api";
 
 
 function App() {
     const isLoggedIn = useSelector((state: RootState) => state.user.isLoggedIn);
+    const query = useQuery({
+        queryKey: ['notes'],
+        queryFn: getAllNotes,
+    })
+
 
     return (
         <>
@@ -22,7 +29,7 @@ function App() {
 
             <Container style={{marginTop: 20}}>
                 <Grid container spacing={3}>
-                    <Grid item xs={12} lg={4}>
+                    {query.data?.notes?.map((note: unknown) => <Grid item xs={12} lg={4}>
                         <Card>
                             <CardContent>
                                 <Typography gutterBottom variant="h5" component="div">
@@ -44,7 +51,7 @@ function App() {
                                 </Grid>
                             </CardActions>
                         </Card>
-                    </Grid>
+                    </Grid>)}
                 </Grid>
             </Container>
         </>

@@ -19,6 +19,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {changeIsLoggedIn, UserState} from "../../features/user.slice";
 import {RootState} from "../../store";
 import {useState} from "react";
+import {useLocalStorage} from "../../services/storage.service";
 
 type TabTypes = "login" | "register";
 
@@ -35,6 +36,9 @@ export default function Navbar() {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
+    //  jwt token state
+    const [_, setJwtToken] = useLocalStorage('token', null);
 
 
     const dispatch = useDispatch();
@@ -58,8 +62,7 @@ export default function Navbar() {
                 email,
                 password,
             });
-            setOpenDialog(false);
-            dispatch(changeIsLoggedIn(true));
+            setDialogTabType("login");
         } catch (error) {
             if (error instanceof AxiosError) {
                 setErrorMessage(error.response?.data.msg);
@@ -70,11 +73,14 @@ export default function Navbar() {
 
     const onLogin = async () => {
         try {
-            await axiosInstance.post('/api/auth/login', {
+            const response = await axiosInstance.post('/api/auth/login', {
                 email,
                 password,
             });
+            const token = response?.data?.access_token
             setOpenDialog(false);
+
+            setJwtToken(token);
             dispatch(changeIsLoggedIn(true));
         } catch (error) {
             if (error instanceof AxiosError) {
@@ -85,6 +91,11 @@ export default function Navbar() {
     }
 
 
+    const onLogout = () => {
+        setJwtToken(null);
+        dispatch(changeIsLoggedIn(false));
+    };
+
     return (
         <Box sx={{flexGrow: 1}}>
             <AppBar position="static">
@@ -93,7 +104,12 @@ export default function Navbar() {
                         Sonia Keep
                     </Typography>
 
-                    {!isLoggedIn && (
+                    {isLoggedIn ? (
+                        <Button
+                            color="error"
+                            variant="contained"
+                            onClick={onLogout}>Logout</Button>
+                    ) : (
                         <>
                             <Button color="inherit" onClick={() => handleClickOpen('login')}>Login</Button>
                             <Button color="inherit" onClick={() => handleClickOpen('register')}
