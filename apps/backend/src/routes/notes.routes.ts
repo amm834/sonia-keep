@@ -5,7 +5,6 @@ import {notePartialSchema, noteRequestSchema} from "../schemas";
 import passport from "passport";
 
 
-
 export const noteRouter: Router = Router();
 const requiredAuth = passport.authenticate('jwt', {session: false});
 
